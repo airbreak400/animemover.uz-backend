@@ -1,8 +1,8 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import mongoose from 'mongoose';
 import 'dotenv/config';
 import { red } from 'colorette';
 
@@ -12,9 +12,13 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
+// SETTING MONGOOSE PLUGINS
+
+
+
 // IMPORT ROUTES
 
-import franchiseRouter from './routes/franchiseRouter.js';
+import animesRouter from './routes/animesRouter.js';
 
 
 const app = express();
@@ -31,7 +35,7 @@ mongoose.connect(process.env.MONGO_URI, () => {
 
 // ROUTES
 
-app.use('/api/franchise/', franchiseRouter);
+app.use('/api/animes/', animesRouter);
 
 
 export default app;
