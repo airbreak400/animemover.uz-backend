@@ -4,15 +4,27 @@ export const showAnimes = async (req, res) => {
     try {
         const options = {
             page: 1,
-            limit: 3
+            limit: 12
         }
 
-        if(req.query.page && req.query.limit) {
+
+        let allAnimes;
+
+        if(req.query.page) {
             options.page = req.query.page;
+        }
+        if(req.query.limit) {
             options.limit = req.query.limit;
         }
         
-        const allAnimes = await Anime.paginate({}, options);
+
+        if(req.query.search) {
+            allAnimes = await Anime.paginate({'title': { $regex: req.query.search, $options: 'i' }}, options);
+            console.log(req.query.search)
+        } else {
+            allAnimes = await Anime.paginate({}, options);
+        }
+
         res.json(allAnimes);
     } catch(error) {
         res.status(400).json({ message: error })
@@ -71,6 +83,20 @@ export const deleteAnime = async (req, res) => {
             res.status(400).json({ message: 'Anime doesnt exist'});
         } else {
             res.status(200).json(deletedAnime);
+        }
+    } catch(error) {
+        res.status(400).json({ message: error })
+    }
+}
+
+export const getAnime = async (req, res) => {
+    try {
+
+        const anime = await Anime.findOne({slug: req.params.slug});
+        if(!anime) {
+         res.status(404); res.json({message: "Not found"})
+        } else {
+            res.json(anime);
         }
     } catch(error) {
         res.status(400).json({ message: error })

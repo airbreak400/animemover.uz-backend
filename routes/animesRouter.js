@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import * as path from 'path'
 
-import { createAnime, showAnimes, updateAnime, deleteAnime } from '../controllers/animesController.js';
+import { createAnime, showAnimes, updateAnime, deleteAnime, getAnime } from '../controllers/animesController.js';
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -20,6 +20,8 @@ const router = express.Router();
 router.get('/', showAnimes)
 
 router.post('/', upload.single('poster'), createAnime);
+
+router.get('/:slug', getAnime);
 
 router.put('/:slug', updateAnime)
 
