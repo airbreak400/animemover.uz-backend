@@ -32,7 +32,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/media/posters', express.static(path.join(__dirname, '/media/posters')));
 
-mongoose.connect(process.env.MONGOURL, () => {
+mongoose.connect(process.env.MONGO_URI, () => {
     console.log(red('Connected to the DB...'));
 })
 
